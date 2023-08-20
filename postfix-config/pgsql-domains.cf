@@ -1,0 +1,5 @@
+user = postgres
+password = f7b08c861071b40abcc119bd3263e84f
+hosts = dokku-postgres-maildb:5432
+dbname = maildb
+query = SELECT domain FROM mail_domains WHERE domain='%s';

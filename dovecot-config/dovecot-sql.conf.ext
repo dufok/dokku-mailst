@@ -1,0 +1,4 @@
+driver = pgsql
+connect = host=dokku-postgres-maildb:5432 dbname=maildb user=postgres password=f7b08c861071b40abcc119bd3263e84f
+default_pass_scheme = SHA512-CRYPT
+password_query = SELECT email as user, password FROM mail_users WHERE email='%u';

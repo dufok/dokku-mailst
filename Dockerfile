@@ -4,17 +4,21 @@ FROM ubuntu:latest
 # Set environment variables to non-interactive (this prevents some prompts)
 ENV DEBIAN_FRONTEND=non-interactive
 
-# Install necessary packages
+# Install necessary packages, postfix and dovecot
 RUN apt-get update && \
     apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
 
 # Copy Postfix configuration files
 COPY ./postfix-config/main.cf /etc/postfix/main.cf
 COPY ./postfix-config/master.cf /etc/postfix/master.cf
+COPY ./postfix-config/pgsql-domains.cf /etc/postfix/pgsql-domains.cf
+COPY ./postfix-config/pgsql-mailboxes.cf /etc/postfix/pgsql-mailboxes.cf
+
 
 # Copy Dovecot configuration files
 COPY ./dovecot-config/dovecot.conf /etc/dovecot/dovecot.conf
 COPY ./dovecot-config/conf.d/* /etc/dovecot/conf.d/
+COPY ./dovecot-config/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 
 # Create mail directories
 RUN mkdir -p /var/mail
@@ -35,13 +39,13 @@ COPY ./opendkim/opendkim.conf /etc/opendkim.conf
 EXPOSE 25 110
 
 # Copy the entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+# COPY entrypoint.sh /entrypoint.sh
 
 # Make it executable
-RUN chmod +x /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
 
 # Set the entry point
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 
 # Start Postfix and Dovecot ferst ver
-# CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log
+CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log

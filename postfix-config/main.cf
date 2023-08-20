@@ -22,10 +22,13 @@ smtpd_sasl_auth_enable = yes
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_local_domain = $myhostname
 
-# If using a database for authentication, add appropriate settings here
-
 # Additional settings as needed
 milter_protocol = 6
 milter_default_action = accept
 smtpd_milters = inet:localhost:8891
 non_smtpd_milters = inet:localhost:8891
+
+# If using a database for authentication, add appropriate settings here
+
+virtual_mailbox_domains = pgsql:/etc/postfix/pgsql-domains.cf
+virtual_mailbox_maps = pgsql:/etc/postfix/pgsql-mailboxes.cf
