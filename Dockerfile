@@ -14,6 +14,11 @@ COPY ./postfix-config/master.cf /etc/postfix/master.cf
 COPY ./postfix-config/pgsql-domains.cf /etc/postfix/pgsql-domains.cf
 COPY ./postfix-config/pgsql-mailboxes.cf /etc/postfix/pgsql-mailboxes.cf
 
+# Create the pickup directory (resolve issue "postdrop: warning: unable to look up public/pickup: No such file or directory")
+RUN mkdir -p /var/spool/postfix/public && \
+    mkfifo /var/spool/postfix/public/pickup && \
+    chown postfix:postdrop /var/spool/postfix/public/pickup && \
+    chmod 0600 /var/spool/postfix/public/pickup
 
 # Copy Dovecot configuration files
 COPY ./dovecot-config/dovecot.conf /etc/dovecot/dovecot.conf
