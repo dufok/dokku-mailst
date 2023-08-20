@@ -34,5 +34,14 @@ COPY ./opendkim/opendkim.conf /etc/opendkim.conf
 # Expose SMTP and POP3 ports
 EXPOSE 25 110
 
-# Start Postfix and Dovecot
-CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log
+# Copy the entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+
+# Make it executable
+RUN chmod +x /entrypoint.sh
+
+# Set the entry point
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Start Postfix and Dovecot ferst ver
+# CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log
