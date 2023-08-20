@@ -1,0 +1,3 @@
+# Mail location settings
+mail_location = maildir:/var/mail/%u
+mail_privileged_group = mail

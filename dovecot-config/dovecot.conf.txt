@@ -1,0 +1,20 @@
+# Enable protocols
+protocols = imap pop3 lmtp
+
+# Set log path
+log_path = /var/log/dovecot.log
+
+# Mail location
+mail_location = maildir:/var/mail/%u
+
+# SSL configuration
+ssl = required
+ssl_cert = </etc/ssl/certs/ssl-cert-snakeoil.pem
+ssl_key = </etc/ssl/private/ssl-cert-snakeoil.key
+
+# Authentication settings
+auth_mechanisms = plain login
+!include auth-system.conf.ext
+
+# Include conf.d settings
+!include conf.d/*.conf

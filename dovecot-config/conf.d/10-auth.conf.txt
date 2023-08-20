@@ -1,0 +1,5 @@
+# Authentication mechanisms
+disable_plaintext_auth = no
+auth_mechanisms = plain login
+
+# Include SQL or other authentication backends as needed
