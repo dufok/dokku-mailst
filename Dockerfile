@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=non-interactive
 
 # Install necessary packages
 RUN apt-get update && \
-    apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools
+    apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
 
 # Copy Postfix configuration files
 COPY ./postfix-config/main.cf /etc/postfix/main.cf
