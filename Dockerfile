@@ -24,13 +24,6 @@ RUN chown -R vmail:vmail /var/mail
 
 # Generate the DKIM Key Pair
 COPY ./opendkim/opendkim.conf /etc/opendkim.conf
-RUN opendkim-genkey -t -s mail -d mail.daruma.com
-
-# Config Postfix:
-RUN echo "milter_protocol = 6" >> /etc/postfix/main.cf && \
-    echo "milter_default_action = accept" >> /etc/postfix/main.cf && \
-    echo "smtpd_milters = inet:localhost:8891" >> /etc/postfix/main.cf && \
-    echo "non_smtpd_milters = inet:localhost:8891" >> /etc/postfix/main.cf
 
 # Expose SMTP and POP3 ports
 EXPOSE 25 110
