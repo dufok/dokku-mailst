@@ -19,6 +19,12 @@ COPY ./dovecot-config/conf.d/* /etc/dovecot/conf.d/
 # Create mail directories
 RUN mkdir -p /var/mail
 
+RUN groupadd vmail
+RUN useradd -g vmail vmail
+
+# Set permissions for mail directories
+RUN chown -R vmail:vmail /var/mail
+
 # Set permissions for mail directories
 RUN chown -R vmail:vmail /var/mail
 
