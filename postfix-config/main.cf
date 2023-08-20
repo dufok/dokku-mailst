@@ -4,6 +4,8 @@ biff = no
 append_dot_mydomain = no
 readme_directory = no
 
+debug_peer_level = 2
+
 # Mailbox settings
 mailbox_size_limit = 0
 recipient_delimiter = +
