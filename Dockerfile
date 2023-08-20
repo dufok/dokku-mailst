@@ -35,4 +35,4 @@ COPY ./opendkim/opendkim.conf /etc/opendkim.conf
 EXPOSE 25 110
 
 # Start Postfix and Dovecot
-CMD service postfix start && service dovecot start && tail -F /var/log/mail.log
+CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log
