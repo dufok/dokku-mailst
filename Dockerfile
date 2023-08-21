@@ -12,7 +12,17 @@ RUN apt-get update && \
 RUN mkdir -p /var/spool/postfix/public && \
     mkfifo /var/spool/postfix/public/pickup && \
     chown postfix:postdrop /var/spool/postfix/public/pickup && \
-    chmod 0600 /var/spool/postfix/public/pickup 
+    chmod 0600 /var/spool/postfix/public/pickup
+
+# Copy Postfix configuration files
+COPY ./postfix-config/main.cf /etc/postfix/main.cf
+RUN chmod go-w /etc/postfix/main.cf
+COPY ./postfix-config/master.cf /etc/postfix/master.cf
+RUN chmod go-w /etc/postfix/master.cf
+COPY ./postfix-config/pgsql-domains.cf /etc/postfix/pgsql-domains.cf
+RUN chmod go-w /etc/postfix/pgsql-domains.cf
+COPY ./postfix-config/pgsql-mailboxes.cf /etc/postfix/pgsql-mailboxes.cf
+RUN chmod go-w /etc/postfix/pgsql-mailboxes.cf
 
 # Copy Dovecot configuration files
 COPY ./dovecot-config/dovecot.conf /etc/dovecot/dovecot.conf
