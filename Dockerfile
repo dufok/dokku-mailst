@@ -8,12 +8,6 @@ ENV DEBIAN_FRONTEND=non-interactive
 RUN apt-get update && \
     apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
 
-# Copy Postfix configuration files
-COPY ./postfix-config/main.cf /etc/postfix/main.cf
-COPY ./postfix-config/master.cf /etc/postfix/master.cf
-COPY ./postfix-config/pgsql-domains.cf /etc/postfix/pgsql-domains.cf
-COPY ./postfix-config/pgsql-mailboxes.cf /etc/postfix/pgsql-mailboxes.cf
-
 # Create the pickup directory (resolve issue "postdrop: warning: unable to look up public/pickup: No such file or directory")
 RUN mkdir -p /var/spool/postfix/public && \
     mkfifo /var/spool/postfix/public/pickup && \
