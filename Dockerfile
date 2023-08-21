@@ -18,7 +18,12 @@ COPY ./postfix-config/pgsql-mailboxes.cf /etc/postfix/pgsql-mailboxes.cf
 RUN mkdir -p /var/spool/postfix/public && \
     mkfifo /var/spool/postfix/public/pickup && \
     chown postfix:postdrop /var/spool/postfix/public/pickup && \
-    chmod 0600 /var/spool/postfix/public/pickup
+    chmod 0600 /var/spool/postfix/public/pickup \
+    chmod go-w /etc/postfix/master.cf \
+    chmod go-w /etc/postfix/main.cf \
+    chmod go-w /etc/postfix/pgsql-mailboxes.cf \
+    chmod go-w /etc/postfix/pgsql-domains.cf 
+
 
 # Copy Dovecot configuration files
 COPY ./dovecot-config/dovecot.conf /etc/dovecot/dovecot.conf
