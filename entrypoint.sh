@@ -40,10 +40,13 @@ sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 
-sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/dovecot/dovecot-sql.conf
-sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/dovecot/dovecot-sql.conf
-sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/dovecot/dovecot-sql.conf
-sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf
+# change permissions on postfix files
+chmod go-w /etc/postfix/*.cf
+
+sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/dovecot/dovecot-sql.conf.ext
+sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/dovecot/dovecot-sql.conf.ext
+sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/dovecot/dovecot-sql.conf.ext
+sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf.ext
 
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/postfix/main.cf
@@ -59,7 +62,7 @@ chmod -R +w /run/dovecot
 chmod -R 777 /home/vmail
 # start logger
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
-sed -i 's/^module(load="imklog")/#module(load="imklog")/g' /etc/rsyslog.conf
+sed -i 's/^module(load="imklog" permitnonkernelfacility="on")/#module(load="imklog" permitnonkernelfacility="on")/g' /etc/rsyslog.conf
 
 # Test change config DOVECOT
 sed -i "s|^ssl =.*|ssl = required|" /etc/dovecot/conf.d/10-ssl.conf
@@ -72,6 +75,7 @@ awk '/service auth {/ { print; print "  unix_listener /var/spool/postfix/private
 # start rsyslogd
 rsyslogd 
 
-# run Postfix and Dovecot
+# run Postfix and Dovecot and opendkim
+/usr/sbin/opendkim -x /etc/opendkim.conf
 postfix start
 dovecot -F
