@@ -15,10 +15,10 @@ RUN mkdir -p /var/spool/postfix/public && \
     chmod 0600 /var/spool/postfix/public/pickup
 
 # Copy Postfix configuration files
-ADD postfix-conf /etc/postfix
+ADD postfix-config /etc/postfix
 
 # Copy Dovecot configuration files
-ADD dovecot-conf /etc/dovecot
+ADD dovecot-conffig /etc/dovecot
 
 RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_gid_maps=static:5000 && \
