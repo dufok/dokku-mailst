@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=non-interactive
 
 # Install necessary packages, postfix and dovecot
 RUN apt-get update && \
-    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl  postgresql-client
+    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl  postgresql-client rsyslog
 
 # Create the pickup directory (resolve issue "postdrop: warning: unable to look up public/pickup: No such file or directory")
 RUN mkdir -p /var/spool/postfix/public && \
@@ -66,7 +66,6 @@ EXPOSE 995
 EXPOSE 993
 
 ADD mail_schema.sql /mail_schema.sql
-RUN psql -h dokku-postgres-maildb -p 5432 -U postgres -d maildb -a -f mail_schema.sql
 
 # Copy the entrypoint script
 COPY entrypoint.sh /entrypoint.sh

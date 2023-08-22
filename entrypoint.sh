@@ -47,6 +47,8 @@ sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf
 
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
 
+psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAM -a -f mail_schema.sql
+
 mkdir /run/dovecot
 chmod -R +r /run/dovecot
 chmod -R +w /run/dovecot
