@@ -18,7 +18,7 @@ RUN mkdir -p /var/spool/postfix/public && \
 ADD postfix-config /etc/postfix
 
 # Copy Dovecot configuration files
-ADD dovecot-conffig /etc/dovecot
+ADD dovecot-config /etc/dovecot
 
 RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_gid_maps=static:5000 && \
