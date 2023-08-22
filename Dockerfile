@@ -20,9 +20,6 @@ ADD postfix-config /etc/postfix
 # Copy Dovecot configuration files
 ADD dovecot-config /etc/dovecot
 
-# Copy OPENDKIM configuration files
-ADD opendkim-config /etc
-
 RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_gid_maps=static:5000 && \
     postconf -e virtual_mailbox_domains=pgsql:/etc/postfix/pgsql-virtual-mailbox-domains.cf && \
@@ -71,7 +68,7 @@ RUN chown -R vmail:vmail /var/mail
 RUN chown -R vmail:vmail /var/mail
 
 # Generate the DKIM Key Pair
-COPY ./opendkim/opendkim.conf /etc/opendkim.conf
+COPY ./opendkim-config/opendkim.conf /etc/opendkim.conf
 
 # SMTP ports
 EXPOSE 25
