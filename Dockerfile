@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=non-interactive
 
 # Install necessary packages, postfix and dovecot
 RUN apt-get update && \
-    apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
+    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl
 
 # Create the pickup directory (resolve issue "postdrop: warning: unable to look up public/pickup: No such file or directory")
 RUN mkdir -p /var/spool/postfix/public && \
@@ -15,19 +15,28 @@ RUN mkdir -p /var/spool/postfix/public && \
     chmod 0600 /var/spool/postfix/public/pickup
 
 # Copy Postfix configuration files
-COPY ./postfix-config/main.cf /etc/postfix/main.cf
-RUN chmod go-w /etc/postfix/main.cf
-COPY ./postfix-config/master.cf /etc/postfix/master.cf
-RUN chmod go-w /etc/postfix/master.cf
-COPY ./postfix-config/pgsql-domains.cf /etc/postfix/pgsql-domains.cf
-RUN chmod go-w /etc/postfix/pgsql-domains.cf
-COPY ./postfix-config/pgsql-mailboxes.cf /etc/postfix/pgsql-mailboxes.cf
-RUN chmod go-w /etc/postfix/pgsql-mailboxes.cf
+ADD postfix-conf /etc/postfix
 
 # Copy Dovecot configuration files
-COPY ./dovecot-config/dovecot.conf /etc/dovecot/dovecot.conf
-COPY ./dovecot-config/conf.d/* /etc/dovecot/conf.d/
-COPY ./dovecot-config/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
+ADD dovecot-conf /etc/dovecot
+
+RUN postconf -e virtual_uid_maps=static:5000 && \
+    postconf -e virtual_gid_maps=static:5000 && \
+    postconf -e virtual_mailbox_domains=pgsql:/etc/postfix/pgsql-virtual-mailbox-domains.cf && \
+    postconf -e virtual_mailbox_maps=pgsql:/etc/postfix/pgsql-virtual-mailbox-maps.cf && \
+    postconf -e virtual_alias_maps=pgsql:/etc/postfix/pgsql-virtual-alias-maps.cf,pgsql:/etc/postfix/pgsql-email2email.cf && \
+    postconf -e virtual_transport=dovecot && \
+    postconf -e dovecot_destination_recipient_limit=1 && \
+    postconf -e smtpd_tls_cert_file=/etc/ssl/certs/{{APP_HOST}}.crt && \
+    postconf -e smtpd_tls_key_file=/etc/ssl/certs/{{APP_HOST}}.key && \
+    postconf -e smtpd_use_tls=yes && \
+    postconf -e smtpd_tls_session_cache_database=btree:${data_directory}/smtpd_scache && \
+    postconf -e smtp_tls_session_cache_database=btree:${data_directory}/smtp_scache && \
+    # specially for docker
+    postconf -F '*/*/chroot = n'
+
+RUN echo "dovecot   unix  -       n       n       -       -       pipe"  >> /etc/postfix/master.cf && \
+    echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf
 
 # Create mail directories
 RUN mkdir -p /var/mail
