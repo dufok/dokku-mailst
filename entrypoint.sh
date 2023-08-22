@@ -15,30 +15,30 @@ echo "$HOST_IP dockerhost" >> /etc/hosts
 echo "localhost" > /etc/mailname
 
 # update config templates
-sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/mysql-email2email.cf
-sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/mysql-email2email.cf
-sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/mysql-email2email.cf
-sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/mysql-email2email.cf
+sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-email2email.cf
+sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-email2email.cf
+sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-email2email.cf
+sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-email2email.cf
 
-sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/mysql-users.cf
-sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/mysql-users.cf
-sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/mysql-users.cf
-sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/mysql-users.cf
+sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-users.cf
+sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-users.cf
+sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-users.cf
+sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-users.cf
 
-sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/mysql-virtual-alias-maps.cf
-sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/mysql-virtual-alias-maps.cf
-sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/mysql-virtual-alias-maps.cf
-sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/mysql-virtual-alias-maps.cf
+sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-alias-maps.cf
+sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-virtual-alias-maps.cf
+sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-alias-maps.cf
+sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-alias-maps.cf
 
-sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/mysql-virtual-mailbox-maps.cf
-sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/mysql-virtual-mailbox-maps.cf
-sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/mysql-virtual-mailbox-maps.cf
-sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/mysql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
 
-sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/mysql-virtual-mailbox-domains.cf
-sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/mysql-virtual-mailbox-domains.cf
-sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/mysql-virtual-mailbox-domains.cf
-sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/mysql-virtual-mailbox-domains.cf
+sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
+sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
+sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
+sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/dovecot/dovecot-sql.conf
 sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/dovecot/dovecot-sql.conf
@@ -47,7 +47,7 @@ sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf
 
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
 
-psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAM -a -f mail_schema.sql
+psql -h $DB_HOST -p $DB_PORT -U $DB_USER -W $DB_PASSWORD -d $DB_NAM -a -f mail_schema.sql
 
 mkdir /run/dovecot
 chmod -R +r /run/dovecot
