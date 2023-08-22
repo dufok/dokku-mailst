@@ -46,6 +46,8 @@ sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/dovecot/dovecot-sql.conf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf
 
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
+sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/postfix/main.cf
+sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/opendkim.conf
 
 # create database schema
 export PGPASSWORD="$DB_PASSWORD"
@@ -59,10 +61,13 @@ chmod -R 777 /home/vmail
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
 sed -i 's/^module(load="imklog")/#module(load="imklog")/g' /etc/rsyslog.conf
 
-# Test change config
+# Test change config DOVECOT
 sed -i "s|^ssl =.*|ssl = required|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s|^ssl_cert =.*|ssl_cert = </etc/ssl/certs/$APP_HOST.crt|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s|^ssl_key =.*|ssl_key = </etc/ssl/certs/$APP_HOST.key|" /etc/dovecot/conf.d/10-ssl.conf
+sed -i 's/^#disable_plaintext_auth = yes/disable_plaintext_auth = yes/' /etc/dovecot/conf.d/10-auth.conf
+sed -i 's/^#!include auth-sql.conf.ext/!include auth-sql.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
+awk '/service auth {/ { print; print "  unix_listener /var/spool/postfix/private/auth {"; print "      mode = 0660"; print "      user = postfix"; print "      group = postfix"; print "  }"; next }1' /etc/dovecot/conf.d/10-master.conf > temp.conf && mv temp.conf /etc/dovecot/conf.d/10-master.conf
 
 # start rsyslogd
 rsyslogd 

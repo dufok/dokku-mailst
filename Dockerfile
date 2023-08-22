@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=non-interactive
 
 # Install necessary packages, postfix and dovecot
 RUN apt-get update && \
-    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl  postgresql-client rsyslog iproute2
+    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl postgresql-client rsyslog iproute2 libsasl2-2 sasl2-bin libsasl2-modules
 
 # Create the pickup directory (resolve issue "postdrop: warning: unable to look up public/pickup: No such file or directory")
 RUN mkdir -p /var/spool/postfix/public && \
@@ -20,6 +20,9 @@ ADD postfix-config /etc/postfix
 # Copy Dovecot configuration files
 ADD dovecot-config /etc/dovecot
 
+# Copy OPENDKIM configuration files
+ADD opendkim-config /etc
+
 RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_gid_maps=static:5000 && \
     postconf -e virtual_mailbox_domains=pgsql:/etc/postfix/pgsql-virtual-mailbox-domains.cf && \
@@ -27,11 +30,25 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_alias_maps=pgsql:/etc/postfix/pgsql-virtual-alias-maps.cf,pgsql:/etc/postfix/pgsql-email2email.cf && \
     postconf -e virtual_transport=dovecot && \
     postconf -e dovecot_destination_recipient_limit=1 && \
+    # Add TLS
     postconf -e smtpd_tls_cert_file=/etc/ssl/certs/{{APP_HOST}}.crt && \
     postconf -e smtpd_tls_key_file=/etc/ssl/certs/{{APP_HOST}}.key && \
     postconf -e smtpd_use_tls=yes && \
     postconf -e smtpd_tls_session_cache_database=btree:${data_directory}/smtpd_scache && \
     postconf -e smtp_tls_session_cache_database=btree:${data_directory}/smtp_scache && \
+    # Add SASL
+    postconf -e smtpd_sasl_auth_enable=yes && \
+    postconf -e smtpd_sasl_security_options=noanonymous && \
+    postconf -e smtpd_sasl_local_domain=$myhostname && \
+    postconf -e broken_sasl_auth_clients=yes && \
+    postconf -e smtpd_sasl_type=dovecot && \
+    postconf -e smtpd_sasl_path=private/auth && \
+    postconf -e smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination && \
+    # Add DKIM
+    postconf -e milter_default_action=accept && \
+    postconf -e milter_protocol=2 && \
+    postconf -e smtpd_milters=inet:localhost:12301 && \
+    postconf -e non_smtpd_milters=inet:localhost:12301 && \
     # specially for docker
     postconf -F '*/*/chroot = n'
 
