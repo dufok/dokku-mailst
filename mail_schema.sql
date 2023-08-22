@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS mail_virtual_domains (
 CREATE TABLE IF NOT EXISTS mail_virtual_users (
   id SERIAL PRIMARY KEY,
   domain_id INT NOT NULL,
-  "user" VARCHAR(40) NOT NULL,
-  password VARCHAR(32) NOT NULL,
+  "user" VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   CONSTRAINT UNIQUE_EMAIL UNIQUE (domain_id, "user"),
   FOREIGN KEY (domain_id) REFERENCES mail_virtual_domains(id) ON DELETE CASCADE
 );
