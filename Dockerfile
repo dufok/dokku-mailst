@@ -32,8 +32,11 @@ COPY ./dovecot-config/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 # Create mail directories
 RUN mkdir -p /var/mail
 
-RUN groupadd vmail
-RUN useradd -g vmail vmail
+RUN groupadd -g 5000 vmail && \
+    useradd -g vmail -u 5000 vmail -d /home/vmail -m && \
+    chgrp postfix /etc/postfix/pgsql-*.cf && \
+    chgrp vmail /etc/dovecot/dovecot.conf && \
+    chmod g+r /etc/dovecot/dovecot.conf
 
 # Set permissions for mail directories
 RUN chown -R vmail:vmail /var/mail
@@ -44,17 +47,23 @@ RUN chown -R vmail:vmail /var/mail
 # Generate the DKIM Key Pair
 COPY ./opendkim/opendkim.conf /etc/opendkim.conf
 
-# Expose SMTP and POP3 ports
-EXPOSE 25 110
+# SMTP ports
+EXPOSE 25
+EXPOSE 587  
+# POP and IMAP ports  
+EXPOSE 110
+EXPOSE 143
+EXPOSE 995
+EXPOSE 993
 
 # Copy the entrypoint script
-# COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 # Make it executable
-# RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Set the entry point
-# ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Start Postfix and Dovecot ferst ver
-CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log
+#CMD service postfix start && service dovecot start && touch /var/log/mail.log && tail -F /var/log/mail.log
