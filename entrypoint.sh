@@ -58,6 +58,12 @@ chmod -R 777 /home/vmail
 # start logger
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
 sed -i 's/^module(load="imklog")/#module(load="imklog")/g' /etc/rsyslog.conf
+
+# Test change config
+sed -i "s|^ssl =.*|ssl = required|" /etc/dovecot/conf.d/10-ssl.conf
+sed -i "s|^ssl_cert =.*|ssl_cert = </etc/ssl/certs/$APP_HOST.crt|" /etc/dovecot/conf.d/10-ssl.conf
+sed -i "s|^ssl_key =.*|ssl_key = </etc/ssl/certs/$APP_HOST.key|" /etc/dovecot/conf.d/10-ssl.conf
+
 # start rsyslogd
 rsyslogd 
 

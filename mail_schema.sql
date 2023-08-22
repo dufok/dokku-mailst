@@ -1,9 +1,9 @@
-CREATE TABLE mail_virtual_domains (
+CREATE TABLE IF NOT EXISTS mail_virtual_domains (
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE mail_virtual_users (
+CREATE TABLE IF NOT EXISTS mail_virtual_users (
   id SERIAL PRIMARY KEY,
   domain_id INT NOT NULL,
   "user" VARCHAR(40) NOT NULL,
@@ -12,13 +12,17 @@ CREATE TABLE mail_virtual_users (
   FOREIGN KEY (domain_id) REFERENCES mail_virtual_domains(id) ON DELETE CASCADE
 );
 
-CREATE TABLE mail_virtual_aliases (
+CREATE TABLE IF NOT EXISTS mail_virtual_aliases (
   id SERIAL PRIMARY KEY,
   domain_id INT NOT NULL,
   source VARCHAR(40) NOT NULL,
   destination VARCHAR(80) NOT NULL,
   FOREIGN KEY (domain_id) REFERENCES mail_virtual_domains(id) ON DELETE CASCADE
 );
+
+-- Drop the views if they exist before recreating them
+DROP VIEW IF EXISTS mail_view_users;
+DROP VIEW IF EXISTS mail_view_aliases;
 
 CREATE VIEW mail_view_users AS
 SELECT CONCAT(mail_virtual_users."user", '@', mail_virtual_domains.name) AS email,
