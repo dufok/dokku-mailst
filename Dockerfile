@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=non-interactive
 
 # Install necessary packages, postfix and dovecot
 RUN apt-get update && \
-    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl  postgresql-client rsyslog
+    apt-get install -y postfix postfix-pgsql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-pgsql openssl  postgresql-client rsyslog iproute2
 
 # Create the pickup directory (resolve issue "postdrop: warning: unable to look up public/pickup: No such file or directory")
 RUN mkdir -p /var/spool/postfix/public && \

@@ -8,7 +8,7 @@ echo "Available environment vars:"
 echo "APP_HOST *required*, DB_NAME *required*, DB_USER, DB_PASSWORD"
 
 # adding IP of a host to /etc/hosts
-export HOST_IP=$(route -n | awk '/UG[ \t]/{print $2}')
+export HOST_IP=$(/sbin/ip route|awk '/default/ { print $3 }')
 echo "$HOST_IP dockerhost" >> /etc/hosts
 
 # defining mail name
@@ -53,7 +53,7 @@ psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -a -f mail_schema.s
 
 mkdir -p /run/dovecot
 chmod -R +r /run/dovecot
-chmod -R +w /run/dovecot`
+chmod -R +w /run/dovecot
 chmod -R 777 /home/vmail
 # start logger
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
