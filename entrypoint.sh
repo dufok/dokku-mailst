@@ -60,6 +60,7 @@ mkdir -p /run/dovecot
 chmod -R +r /run/dovecot
 chmod -R +w /run/dovecot
 chmod -R 777 /home/vmail
+chown -R root:root /etc/ssl/certs
 # start logger
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
 sed -i 's/^module(load="imklog" permitnonkernelfacility="on")/#module(load="imklog" permitnonkernelfacility="on")/g' /etc/rsyslog.conf
