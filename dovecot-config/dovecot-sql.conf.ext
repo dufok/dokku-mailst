@@ -1,11 +1,5 @@
 driver = pgsql
 connect = host={{DB_HOST}} dbname={{DB_NAME}} user={{DB_USER}} password={{DB_PASSWORD}}
 default_pass_scheme = SHA512-CRYPT
-user_query = SELECT CONCAT('/var/mail', mail_virtual_users."user", '@', mail_virtual_domains.name) AS home, 
-       8 AS uid, 
-       12 AS gid 
-FROM mail_virtual_users 
-LEFT JOIN mail_virtual_domains ON mail_virtual_users.domain_id = mail_virtual_domains.id 
-WHERE CONCAT(mail_virtual_users."user", '@', mail_virtual_domains.name) = '%u';
-
+user_query = SELECT CONCAT('/var/mail', mail_virtual_users."user", '@', mail_virtual_domains.name) AS home, 8 AS uid, 12 AS gid FROM mail_virtual_users LEFT JOIN mail_virtual_domains ON mail_virtual_users.domain_id=mail_virtual_domains.id WHERE CONCAT(mail_virtual_users."user", '@', mail_virtual_domains.name)='%u';
 password_query = SELECT email as user, password FROM mail_view_users WHERE email='%u';
