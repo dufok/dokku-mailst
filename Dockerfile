@@ -64,9 +64,6 @@ RUN groupadd -g 5000 vmail && \
 # Set permissions for mail directories
 RUN chown -R vmail:vmail /var/mail
 
-# Set permissions for mail directories
-RUN chown -R vmail:vmail /var/mail
-
 # Generate the DKIM Key Pair
 COPY ./opendkim-config/opendkim.conf /etc/opendkim.conf
 
