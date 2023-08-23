@@ -1,4 +1,4 @@
 driver = pgsql
 connect = host={{DB_HOST}} dbname={{DB_NAME}} user={{DB_USER}} password={{DB_PASSWORD}}
 default_pass_scheme = SHA512-CRYPT
-password_query = SELECT email as user, password FROM mail_virtual_users WHERE email='%u';
+password_query = SELECT email as user, password FROM mail_view_users WHERE email='%u';
