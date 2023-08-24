@@ -56,8 +56,6 @@ sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/opendkim.conf
 export PGPASSWORD="$DB_PASSWORD"
 psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -a -f mail_schema.sql
 
-echo "TEST"
-
 mkdir -p /run/dovecot
 chmod -R +r /run/dovecot
 chmod -R +w /run/dovecot
