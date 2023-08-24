@@ -69,8 +69,8 @@ chown -R root:root /etc/opendkim
 chmod 700 /etc/opendkim
 chmod 600 /etc/opendkim/mail.private
 
-sudo chown -R postfix:postfix /var/lib/postfix
-sudo chmod -R 700 /var/lib/postfix
+chown -R postfix:postfix /var/lib/postfix
+chmod -R 700 /var/lib/postfix
 
 # start logger
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
