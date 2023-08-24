@@ -31,8 +31,8 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e smtpd_tls_cert_file=/etc/ssl/certs/{{APP_HOST}}.crt && \
     postconf -e smtpd_tls_key_file=/etc/ssl/certs/{{APP_HOST}}.key && \
     postconf -e smtpd_use_tls=yes && \
-    postconf -e smtpd_tls_session_cache_database=btree:${data_directory}/smtpd_scache && \
-    postconf -e smtp_tls_session_cache_database=btree:${data_directory}/smtp_scache && \
+    postconf -e smtpd_tls_session_cache_database=btree:/var/lib/postfix/smtpd_scache && \
+    postconf -e smtp_tls_session_cache_database=btree:/var/lib/postfix/smtp_scache && \
     # Add SASL
     postconf -e smtpd_sasl_auth_enable=yes && \
     postconf -e smtpd_sasl_security_options=noanonymous && \
