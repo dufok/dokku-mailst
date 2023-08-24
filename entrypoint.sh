@@ -81,6 +81,7 @@ sed -i "s|^ssl =.*|ssl = required|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s|^ssl_cert =.*|ssl_cert = </etc/ssl/certs/$APP_HOST.crt|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s|^ssl_key =.*|ssl_key = </etc/ssl/certs/$APP_HOST.key|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i 's/^#disable_plaintext_auth = yes/disable_plaintext_auth = yes/' /etc/dovecot/conf.d/10-auth.conf
+sed -i 's/^!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
 sed -i 's/^#!include auth-sql.conf.ext/!include auth-sql.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
 awk '/service auth {/ { print; print "  unix_listener /var/spool/postfix/private/auth {"; print "      mode = 0660"; print "      user = postfix"; print "      group = postfix"; print "  }"; next }1' /etc/dovecot/conf.d/10-master.conf > temp.conf && mv temp.conf /etc/dovecot/conf.d/10-master.conf
 
