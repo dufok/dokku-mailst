@@ -60,11 +60,14 @@ mkdir -p /run/dovecot
 chmod -R +r /run/dovecot
 chmod -R +w /run/dovecot
 chmod -R 777 /home/vmail
+chown -R vmail:vmail /var/mail
+
 chown -R root:root /etc/ssl/certs
 chmod -R 755 /etc/ssl/certs
+
 chown -R root:root /etc/opendkim
-chmod -R 755 /etc/opendkim
-chown -R vmail:vmail /var/mail
+chmod 700 /etc/opendkim
+chmod 600 /etc/opendkim/mail.private
 
 # start logger
 # comment line "module(load="imklog")" in /etc/rsyslog.conf
