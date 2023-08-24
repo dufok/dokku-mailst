@@ -46,6 +46,9 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e milter_protocol=2 && \
     postconf -e smtpd_milters=inet:localhost:12301 && \
     postconf -e non_smtpd_milters=inet:localhost:12301 && \
+    # Add debug levels
+    postconf -e debug_peer_level=3 && \
+    postconf -e debug_peer_list=172.17.0.1 && \
     # specially for docker
     postconf -F '*/*/chroot = n'
 
