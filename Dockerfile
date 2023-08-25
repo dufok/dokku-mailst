@@ -27,6 +27,7 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_alias_maps=pgsql:/etc/postfix/pgsql-virtual-alias-maps.cf,pgsql:/etc/postfix/pgsql-email2email.cf && \
     postconf -e virtual_transport=dovecot && \
     postconf -e dovecot_destination_recipient_limit=1 && \
+    postconf -e smtputf8_enable=yes && \
     # Add TLS
     postconf -e smtpd_tls_cert_file=/etc/ssl/certs/{{APP_HOST}}.crt && \
     postconf -e smtpd_tls_key_file=/etc/ssl/certs/{{APP_HOST}}.key && \
