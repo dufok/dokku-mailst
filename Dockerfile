@@ -57,7 +57,7 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
 
 RUN echo "dovecot   unix  -       n       n       -       -       pipe"  >> /etc/postfix/master.cf && \
     echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf && \
-    echo '127.0.0.1:1025      inet  n       -       n       -       -       smtpd' >> /etc/postfix/master.cf && \
+    echo '127.0.0.1:1025      inet  n       -       n       -       -       smtpd' >> /etc/postfix/master.cf
 
 
 
