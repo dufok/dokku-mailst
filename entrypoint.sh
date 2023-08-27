@@ -50,6 +50,7 @@ sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf.ext
 
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/postfix/main.cf
+sed -i "s/inet_interfaces = all/inet_interfaces = localhost/g" /etc/postfix/main.cf
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/opendkim.conf
 
 # create database schema

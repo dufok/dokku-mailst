@@ -50,11 +50,16 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
     # Add debug levels
     postconf -e debug_peer_level=3 && \
     postconf -e debug_peer_list=172.17.0.1 && \
+    # Add HAproxy protocol
+    postconf -e postscreen_upstream_proxy_protocol=haproxy && \
     # specially for docker
     postconf -F '*/*/chroot = n'
 
 RUN echo "dovecot   unix  -       n       n       -       -       pipe"  >> /etc/postfix/master.cf && \
-    echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf
+    echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf && \
+    echo '127.0.0.1:1025      inet  n       -       n       -       -       smtpd' >> /etc/postfix/master.cf && \
+
+
 
 # Create mail directories
 RUN mkdir -p /var/mail
@@ -72,13 +77,13 @@ RUN chown -R vmail:vmail /var/mail
 COPY ./opendkim-config/opendkim.conf /etc/opendkim.conf
 
 # SMTP ports
-EXPOSE 25
-EXPOSE 587  
+EXPOSE 1025
+EXPOSE 1587  
 # POP and IMAP ports  
-EXPOSE 110
-EXPOSE 143
-EXPOSE 995
-EXPOSE 993
+EXPOSE 1110
+EXPOSE 1143
+EXPOSE 1995
+EXPOSE 1993
 
 ADD mail_schema.sql /mail_schema.sql
 
