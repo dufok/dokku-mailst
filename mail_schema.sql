@@ -28,10 +28,13 @@ CREATE VIEW mail_view_users AS
 SELECT CONCAT(mail_virtual_users."user", '@', mail_virtual_domains.name) AS email,
   mail_virtual_users.password
 FROM mail_virtual_users
-LEFT JOIN mail_virtual_domains ON mail_virtual_users.domain_id=mail_virtual_domains.id;
+JOIN mail_virtual_domains ON mail_virtual_users.domain_id = mail_virtual_domains.id;
 
 CREATE VIEW mail_view_aliases AS
 SELECT CONCAT(mail_virtual_aliases.source, '@', mail_virtual_domains.name) AS email,
   destination
 FROM mail_virtual_aliases
 LEFT JOIN mail_virtual_domains ON mail_virtual_aliases.domain_id=mail_virtual_domains.id;
+
+
+
