@@ -68,7 +68,6 @@ chown -R root:root /etc/ssl/certs
 chmod -R 755 /etc/ssl/certs
 
 chown -R root:root /etc/opendkim
-chown -R opendkim:opendkim /etc/opendkim/keys
 chmod 700 /etc/opendkim
 chmod -R 600 /etc/opendkim/keys
 
