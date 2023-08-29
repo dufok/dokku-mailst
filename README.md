@@ -5,7 +5,7 @@ This guide outlines the steps to set up a Mailst app on a Dokku server.
 ## Table of Contents
 
 - [Server Side Setup](#server-side-setup)
-- [Domain Configuration](#domain-configuration)
+- [SSL TLS certificates](#ssl-tls-certificates)
 - [OpenDKIM Setup](#opendkim-setup)
 - [DNS Configuration](#dns-configuration)
 - [Push App and Test](#push-app-and-test)
@@ -57,10 +57,15 @@ dokku storage:mount mailst /var/lib/dokku/data/storage/mailst/opendkim/:/etc/ope
 ```
 
 
-## Domain Configuration
+## SSL TLS certificates
 Add an "A" record in your domain's DNS settings:
 
 "A" record example.com Value: IP address of server
 
+```bash
+dokku letsencrypt:set mailst email admin@mail.com
+dokku letsencrypt:enable mailst
+# 
+dokku config:set mailst APP_HOST=mail.daruma.dev DB_HOST=dokku-postgres-mailst_db DB_PORT=5432 DB_USER=postgres DB_PASSWORD=[PASSWORD] DB_NAME=mailst_db
 
 
