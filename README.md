@@ -6,7 +6,6 @@ This guide outlines the steps to set up a Mailst app on a Dokku server.
 
 - [Server Side Setup](#server-side-setup)
 - [Domain Configuration](#domain-configuration)
-- [Reverse Proxy Setup](#reverse-proxy-setup)
 - [OpenDKIM Setup](#opendkim-setup)
 - [DNS Configuration](#dns-configuration)
 - [Push App and Test](#push-app-and-test)
@@ -55,10 +54,13 @@ dokku storage:mount mailst /var/lib/dokku/data/storage/mailst/mail/:/var/mail/
 dokku storage:mount mailst /home/dokku/mailst/letsencrypt/certs/current/certificates/:/etc/ssl/certs/
 # Mount the OpenDKIM keys directory from the host to the '/etc/opendkim/' directory inside the 'mailst' container
 dokku storage:mount mailst /var/lib/dokku/data/storage/mailst/opendkim/:/etc/opendkim/
+```
 
 
-Domain Configuration
-Add an A record in your domain's DNS settings:
+## Domain Configuration
+Add an "A" record in your domain's DNS settings:
 
-A record [domain APP HOST] Value: IP address of server
+"A" record example.com Value: IP address of server
+
+
 
