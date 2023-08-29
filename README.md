@@ -142,6 +142,16 @@ INSERT INTO mail_virtual_users (domain_id, "user", password) VALUES (DOMAIN_ID, 
 ```
 YOUR_USER is name of user without domain, for example "admin". Then email adress will be "admin@example.com"
 
+Just in case:
+```bash
+# Print info about users
+SELECT u."user", d.name AS domain_name
+FROM mail_virtual_users u
+JOIN mail_virtual_domains d ON u.domain_id = d.id;
+# Delete from table
+DELETE FROM mail_virtual_users WHERE "user" = 'YOUR_USER' AND domain_id = (SELECT id FROM mail_virtual_domains WHERE name = 'example.com');
+```
+
 
 
 
