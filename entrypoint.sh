@@ -51,7 +51,7 @@ sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/dovecot/dovecot-sql.conf.ext
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/postfix/main.cf
 
-sed -i "s/inet_interfaces = all/inet_interfaces = 127.0.0.1/g" /etc/postfix/main.cf
+# sed -i "s/inet_interfaces = all/inet_interfaces = 127.0.0.1/g" /etc/postfix/main.cf
 sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/opendkim.conf
 
 # create database schema
@@ -82,7 +82,7 @@ sed -i 's/^module(load="imklog" permitnonkernelfacility="on")/#module(load="imkl
 sed -i "s|^ssl =.*|ssl = required|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s|^ssl_cert =.*|ssl_cert = </etc/ssl/certs/$APP_HOST.crt|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s|^ssl_key =.*|ssl_key = </etc/ssl/certs/$APP_HOST.key|" /etc/dovecot/conf.d/10-ssl.conf
-sed -i "s|^#ssl_min_protocol = TLSv1.2|ssl_min_protocol = TLSv1.3|" /etc/dovecot/conf.d/10-ssl.conf
+# sed -i "s|^#ssl_min_protocol = TLSv1.2|ssl_min_protocol = TLSv1.3|" /etc/dovecot/conf.d/10-ssl.conf
 sed -i 's/^#disable_plaintext_auth = yes/disable_plaintext_auth = yes/' /etc/dovecot/conf.d/10-auth.conf
 sed -i 's/^!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
 sed -i 's/^#!include auth-sql.conf.ext/!include auth-sql.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
