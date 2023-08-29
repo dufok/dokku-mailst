@@ -65,7 +65,85 @@ Add an "A" record in your domain's DNS settings:
 ```bash
 dokku letsencrypt:set mailst email admin@mail.com
 dokku letsencrypt:enable mailst
-# 
-dokku config:set mailst APP_HOST=mail.daruma.dev DB_HOST=dokku-postgres-mailst_db DB_PORT=5432 DB_USER=postgres DB_PASSWORD=[PASSWORD] DB_NAME=mailst_db
+```
+
+## Adding Vairables
+APP_HOST, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+```bash
+dokku config:set mailst APP_HOST=example.com DB_HOST=[Database Host] DB_PORT=[Database Port] DB_USER=[Database Used] DB_PASSWORD=[PASSWORD] DB_NAME=[Database Name]
+```
+
+## OpenDKIM Setup
+First, install OpenDKIM:
+```bash
+apt-get install opendkim opendkim-tools
+```
+Then in dir /var/lib/dokku/data/storage/mailst/opendkim/ create directorys by name of domains in "keys" dir
+```bash
+mkdir -p /~/keys/example.com
+mkdir -p /~/keys/unxample.ua
+...
+```
+
+Navigate to the directorys and generate keys
+```bash
+# Domain one
+cd /~/keys/example.com
+opendkim-genkey -s mail -d example.com
+# Domain two
+cd /~/keys/unxample.ua
+opendkim-genkey -s mail -d unxample.ua
+```
+Create KeyTable file:
+```bash
+# KeyTable file
+mailst._domainkey.example.com example.com:/etc/opendkim/keys/example.com/mail.private
+mailst._domainkey.unxample.ua unxample.ua:/etc/opendkim/keys/unxample.ua/mail.private
+```
+
+Create SigningTable file:
+```bash
+# SigningTable file
+*@example.com mailst._domainkey.example.com
+*@unxample.ua mailst._domainkey.unxample.ua
+```
+
+## DNS Configuration
+1. SPF (Sender Policy Framework):
+   Add a TXT record: v=spf1 ip4:YOUR.SERVER.IP.ADDRESS -all
+2. DKIM (DomainKeys Identified Mail):
+   Add a TXT record: v=DKIM1; k=rsa; p=YOUR_PUBLIC_KEY
+3. DMARC (Domain-based Message Authentication, Reporting & Conformance):
+   Add a TXT record: v=DMARC1; p=none; pct=100; rua=mailto:you@example.com
+
+The YOUR_PUBLIC_KEY you can take from /etc/opendkim/keys/example.com/mail.txt
+
+## Push App and Test
+
+Clone git repository, create git remote to your dokku and push image to your app.
+```bash
+git remote add mailst dokku@[your dokku server]:mailst
+git push mailst master
+```
+
+## User Management
+Ferst need to generate hashed password, connect to db and add user, domain, password
+```bash
+# Generate Hashed password
+doveadm pw -s SHA512-CRYPT -p 'PASSWORD'
+# Connect to database
+dokku postgres:connect mailst_db
+# Insert domain and user
+INSERT INTO mail_virtual_domains (name) VALUES ('YOU_HOST');
+# This is return id of domain
+SELECT id FROM mail_virtual_domains WHERE name = 'YOU_HOST';
+# insert user
+INSERT INTO mail_virtual_users (domain_id, "user", password) VALUES (DOMAIN_ID, 'YOUR_USER', 'HASHED_PASSWORD');
+```
+YOUR_USER is name of user without domain, for example "admin". Then email adress will be "admin@example.com"
+
+
+
+
 
 
