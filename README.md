@@ -5,7 +5,7 @@ This guide outlines the steps to set up a Mailst app on a Dokku server.
 ## Table of Contents
 
 - [Server Side Setup](#server-side-setup)
-- [SSL TLS certificates](#ssl-tls-certificates)
+- [SSL TLS Certificates](#ssl-tls-certificates)
 - [OpenDKIM Setup](#opendkim-setup)
 - [DNS Configuration](#dns-configuration)
 - [Push App and Test](#push-app-and-test)
@@ -57,7 +57,7 @@ dokku storage:mount mailst /var/lib/dokku/data/storage/mailst/opendkim/:/etc/ope
 ```
 
 
-## SSL TLS certificates
+## SSL TLS Certificates
 Add an "A" record in your domain's DNS settings:
 
 "A" record example.com Value: IP address of server
@@ -67,7 +67,7 @@ dokku letsencrypt:set mailst email admin@mail.com
 dokku letsencrypt:enable mailst
 ```
 
-## Adding Vairables
+## Adding Variables
 APP_HOST, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 ```bash
 dokku config:set mailst APP_HOST=example.com DB_HOST=[Database Host] DB_PORT=[Database Port] DB_USER=[Database Used] DB_PASSWORD=[PASSWORD] DB_NAME=[Database Name]
@@ -120,14 +120,14 @@ The YOUR_PUBLIC_KEY you can take from /etc/opendkim/keys/example.com/mail.txt
 
 ## Push App and Test
 
-Clone git repository, create git remote to your dokku and push image to your app.
+Clone the git repository, create a git remote to your Dokku, and push image to your app.
 ```bash
 git remote add mailst dokku@[your dokku server]:mailst
 git push mailst master
 ```
 
 ## User Management
-Ferst need to generate hashed password, connect to db and add user, domain, password
+First you need to generate hashed password, connect to the database, and add user, domain, password
 ```bash
 # Generate Hashed password
 doveadm pw -s SHA512-CRYPT -p 'PASSWORD'
