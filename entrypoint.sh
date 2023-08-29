@@ -69,7 +69,7 @@ chmod -R 755 /etc/ssl/certs
 
 chown -R root:root /etc/opendkim
 chmod 700 /etc/opendkim
-chmod 600 /etc/opendkim/mail.private
+chmod -R 600 /etc/opendkim/keys/mail.private
 
 chown -R postfix:postfix /var/lib/postfix
 chmod -R 700 /var/lib/postfix
