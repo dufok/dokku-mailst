@@ -1,4 +1,4 @@
-# Mailst on Dokku: The Email Server Your Dev Friends Wish They Had
+# Mailst on Dokku: The Email Server
 
 🌟 Hey there, fellow code wranglers! Ever wanted to roll your own email server but didn't want to get lost in a sea of configs and docs? Look no further! Mailst on Dokku is your one-stop-shop to get an email server up and running faster than you can say "SMTP."
 
