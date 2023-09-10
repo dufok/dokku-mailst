@@ -51,7 +51,7 @@ dokku docker-options:add mailst deploy "-p 587:587"
 dokku docker-options:add mailst deploy "-p 993:993"
 
 # Set the domain for the 'mailst' app to 'example.com' and any other domains
-dokku domains:set mailst example.com [all domains...]
+dokku domains:set mailst example.com
 
 # Ensure that the directory '/var/lib/dokku/data/storage/mailst' exists on the host machine
 dokku storage:ensure-directory mailst /var/lib/dokku/data/storage/mailst
@@ -128,7 +128,7 @@ Create SigningTable file:
 
 ## DNS Configuration
 1. SPF (Sender Policy Framework):
-   Add a TXT record: v=spf1 ip4:YOUR.SERVER.IP.ADDRESS -all
+   Add a TXT record: v=spf1 ip4:YOUR_SERVER_ADDRESS -all
 2. DKIM (DomainKeys Identified Mail):
    Add a TXT record: v=DKIM1; k=rsa; p=YOUR_PUBLIC_KEY
 3. DMARC (Domain-based Message Authentication, Reporting & Conformance):
