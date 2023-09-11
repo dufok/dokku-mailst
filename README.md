@@ -162,6 +162,12 @@ INSERT INTO mail_virtual_users (domain_id, "user", password) VALUES (DOMAIN_ID, 
 ```
 YOUR_USER is name of user without domain, for example "admin". Then email adress will be "admin@example.com"
 
+Create for this user dir in /var/lib/dokku/data/storage/mailst/mail/admin@example.com
+and rebuld app
+```bash
+dokku ps:rebuild mailst
+```
+
 Just in case:
 ```bash
 # Print info about users
