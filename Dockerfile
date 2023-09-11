@@ -57,6 +57,20 @@ RUN echo "dovecot   unix  -       n       n       -       -       pipe"  >> /etc
     echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf
     # echo '127.0.0.1:1025      inet  n       -       n       -       -       smtpd' >> /etc/postfix/master.cf
 
+# TESTING Add Submission and SMTPS services to master.cf 
+RUN echo "submission inet n       -       y       -       -       smtpd" >> /etc/postfix/master.cf && \
+    echo "  -o syslog_name=postfix/submission" >> /etc/postfix/master.cf && \
+    echo "  -o smtpd_tls_security_level=encrypt" >> /etc/postfix/master.cf && \
+    echo "  -o smtpd_sasl_auth_enable=yes" >> /etc/postfix/master.cf && \
+    echo "  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject" >> /etc/postfix/master.cf && \
+    echo "  -o milter_macro_daemon_name=ORIGINATING" >> /etc/postfix/master.cf && \
+    echo "smtps     inet  n       -       y       -       -       smtpd" >> /etc/postfix/master.cf && \
+    echo "  -o syslog_name=postfix/smtps" >> /etc/postfix/master.cf && \
+    echo "  -o smtpd_tls_wrappermode=yes" >> /etc/postfix/master.cf && \
+    echo "  -o smtpd_sasl_auth_enable=yes" >> /etc/postfix/master.cf && \
+    echo "  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject" >> /etc/postfix/master.cf && \
+    echo "  -o milter_macro_daemon_name=ORIGINATING" >> /etc/postfix/master.cf
+
 
 
 # Create mail directories
