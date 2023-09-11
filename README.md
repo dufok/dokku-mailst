@@ -39,16 +39,18 @@ dokku apps:create mailst
 
 # Add Docker options to map port 25 of the container to port 25 of the host machine (SMTP)
 dokku docker-options:add mailst deploy "-p 25:25"
-# Map port 110 of the container to port 110 of the host machine (POP3)
-dokku docker-options:add mailst deploy "-p 110:110"
 # Map port 143 of the container to port 143 of the host machine (IMAP)
 dokku docker-options:add mailst deploy "-p 143:143"
-# Map port 995 of the container to port 995 of the host machine (POP3S)
-dokku docker-options:add mailst deploy "-p 995:995"
 # Map port 587 of the container to port 587 of the host machine (Submission for email)
 dokku docker-options:add mailst deploy "-p 587:587"
 # Map port 993 of the container to port 993 of the host machine (IMAPS)
 dokku docker-options:add mailst deploy "-p 993:993"
+
+###### IF YOU WANT POP3 ######
+# Map port 995 of the container to port 995 of the host machine (POP3S)
+dokku docker-options:add mailst deploy "-p 995:995"
+# Map port 110 of the container to port 110 of the host machine (POP3)
+dokku docker-options:add mailst deploy "-p 110:110"
 
 # Set the domain for the 'mailst' app to 'example.com' and any other domains
 dokku domains:set mailst example.com
