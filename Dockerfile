@@ -76,6 +76,7 @@ COPY ./opendkim-config/opendkim.conf /etc/opendkim.conf
 
 # SMTP ports
 EXPOSE 25
+EXPOSE 465
 EXPOSE 587  
 #  IMAP ports  
 # EXPOSE 110 //pop port
