@@ -1,5 +1,5 @@
 user = {{DB_USER}}
 password = {{DB_PASSWORD}}
-hosts = {{DB_HOST}}
+hosts = {{DB_HOST}}:{{DB_PORT}}
 dbname = {{DB_NAME}}
 query = SELECT 1 FROM mail_virtual_domains WHERE name='%s'
