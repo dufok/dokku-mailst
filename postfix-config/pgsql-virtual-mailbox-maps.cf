@@ -1,6 +1,5 @@
 user = {{DB_USER}}
 password = {{DB_PASSWORD}}
-hosts = {{DB_HOST}}
+hosts = {{DB_HOST}}:{{DB_PORT}}
 dbname = {{DB_NAME}}
-port = {{DB_PORT}}
 query = SELECT 1 FROM mail_view_users WHERE email='%s'
