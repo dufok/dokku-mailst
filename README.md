@@ -132,9 +132,11 @@ Create SigningTable file:
 1. SPF (Sender Policy Framework):
    Add a TXT record: v=spf1 ip4:YOUR_SERVER_ADDRESS -all
 2. DKIM (DomainKeys Identified Mail):
-   Add a TXT record: v=DKIM1; k=rsa; p=YOUR_PUBLIC_KEY
+   Add a TXT record: v=DKIM1; h=sha256; k=rsa; p=YOUR_PUBLIC_KEY
 3. DMARC (Domain-based Message Authentication, Reporting & Conformance):
    Add a TXT record: v=DMARC1; p=none; pct=100; rua=mailto:you@example.com
+
+***you can verify your DNS records with this tool: https://mxtoolbox.com/SuperTool.aspx***
 
 The YOUR_PUBLIC_KEY you can take from /etc/opendkim/keys/example.com/mail.txt
 
