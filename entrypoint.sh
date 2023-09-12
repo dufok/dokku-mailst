@@ -33,6 +33,7 @@ sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-alias-maps.
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
 sed -i "s/{{DB_HOST}}/$DB_HOST/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
 sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
 
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
