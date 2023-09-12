@@ -130,11 +130,17 @@ Create SigningTable file:
 
 ## DNS Configuration
 1. SPF (Sender Policy Framework):
-   Add a TXT record: v=spf1 ip4:YOUR_SERVER_ADDRESS -all
+   Add a TXT record:
+    name: your.damain.server
+    value: v=spf1 ip4:YOUR_SERVER_ADDRESS -all
 2. DKIM (DomainKeys Identified Mail):
-   Add a TXT record: v=DKIM1; h=sha256; k=rsa; p=YOUR_PUBLIC_KEY
+    Add a TXT record: 
+      name: mailst._domainkey.your.damain.server
+      valuse: v=DKIM1; h=sha256; k=rsa; p=YOUR_PUBLIC_KEY;
 3. DMARC (Domain-based Message Authentication, Reporting & Conformance):
-   Add a TXT record: v=DMARC1; p=none; pct=100; rua=mailto:you@example.com
+   Add a TXT record:
+    name: _dmarc.your.damain.server
+    value: v=DMARC1; p=none; pct=100; rua=mailto:you@example.com
 
 ***you can verify your DNS records with this tool: https://mxtoolbox.com/SuperTool.aspx***
 
@@ -163,15 +169,6 @@ SELECT id FROM mail_virtual_domains WHERE name = 'YOU_HOST';
 INSERT INTO mail_virtual_users (domain_id, "user", password) VALUES (DOMAIN_ID, 'YOUR_USER', 'HASHED_PASSWORD');
 ```
 YOUR_USER is name of user without domain, for example "admin". Then email adress will be "admin@example.com"
-
-Create for this user dir in /var/lib/dokku/data/storage/mailst/mail/admin@example.com
-and rebuld app
-```bash
-mkdir -p /var/lib/dokku/data/storage/mailst/mail/admin@example.com
-cd /var/lib/dokku/data/storage/mailst/mail/admin@example.com
-mkdir -p .INBOX .Sent .Drafts .Trash .Junk .Archive
-dokku ps:rebuild mailst
-```
 
 Just in case:
 ```bash
