@@ -19,19 +19,19 @@ IP=$(grep -r $DB_HOST /etc/hosts | /bin/awk '{print $1}')
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-email2email.cf
 sed -i "s/{{DB_HOST}}/$IP/g" /etc/postfix/pgsql-email2email.cf
 sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-email2email.cf
-sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-email2email.cf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-email2email.cf
 
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-users.cf
 sed -i "s/{{DB_HOST}}/$IP/g" /etc/postfix/pgsql-users.cf
 sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-users.cf
-sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-users.cf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-users.cf
 
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-alias-maps.cf
 sed -i "s/{{DB_HOST}}/$IP/g" /etc/postfix/pgsql-virtual-alias-maps.cf
 sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-alias-maps.cf
-sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-alias-maps.cf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-alias-maps.cf
 
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
@@ -43,7 +43,7 @@ sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-mailbox-map
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 sed -i "s/{{DB_HOST}}/$IP/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 sed -i "s/{{DB_NAME}}/$DB_NAME/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
-sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-mailbox-maps.cf
+sed -i "s/{{DB_PORT}}/$DB_PORT/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g" /etc/postfix/pgsql-virtual-mailbox-domains.cf
 
 # change permissions on postfix files
