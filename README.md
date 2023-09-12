@@ -167,6 +167,9 @@ YOUR_USER is name of user without domain, for example "admin". Then email adress
 Create for this user dir in /var/lib/dokku/data/storage/mailst/mail/admin@example.com
 and rebuld app
 ```bash
+mkdir -p /var/lib/dokku/data/storage/mailst/mail/admin@example.com
+cd /var/lib/dokku/data/storage/mailst/mail/admin@example.com
+mkdir -p .INBOX .Sent .Drafts .Trash .Junk .Archive
 dokku ps:rebuild mailst
 ```
 

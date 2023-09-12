@@ -64,8 +64,8 @@ chmod -R +w /run/dovecot
 chmod -R 777 /home/vmail
 chown -R vmail:vmail /var/mail
 
-chown -R root:root /etc/ssl/certs
-chmod -R 755 /etc/ssl/certs
+# chown -R root:root /etc/ssl/certs
+# chmod -R 755 /etc/ssl/certs
 
 chown -R root:root /etc/opendkim
 chmod 700 /etc/opendkim
