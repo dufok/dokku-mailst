@@ -13,7 +13,7 @@ echo "$HOST_IP dockerhost" >> /etc/hosts
 
 # defining mail name
 echo "localhost" > /etc/mailname
-IP = $(grep -r $DB_HOST /etc/hosts | /bin/awk '{print $1}')
+IP=$(grep -r $DB_HOST /etc/hosts | /bin/awk '{print $1}')
 
 # update config templates
 sed -i "s/{{DB_USER}}/$DB_USER/g" /etc/postfix/pgsql-email2email.cf
