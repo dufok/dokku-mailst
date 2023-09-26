@@ -45,6 +45,8 @@ dokku docker-options:add mailst deploy "-p 143:143"
 dokku docker-options:add mailst deploy "-p 587:587"
 # Map port 993 of the container to port 993 of the host machine (IMAPS)
 dokku docker-options:add mailst deploy "-p 993:993"
+# Map port 465 of the container to port 465 of the host machine (SMTPS)
+dokku docker-options:add mailst deploy "-p 465:465"
 
 ###### IF YOU WANT POP3 ######
 # Map port 995 of the container to port 995 of the host machine (POP3S)
