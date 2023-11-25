@@ -89,14 +89,14 @@ RUN chown -R vmail:vmail /var/mail
 COPY ./opendkim-config/opendkim.conf /etc/opendkim.conf
 
 # SMTP ports
-EXPOSE 25
-EXPOSE 465
-EXPOSE 587  
+#EXPOSE 25
+#EXPOSE 465
+#EXPOSE 587  
 #  IMAP ports  
 # EXPOSE 110 //pop port
-EXPOSE 143
+#EXPOSE 143
 # EXPOSE 995 //pop port
-EXPOSE 993
+#EXPOSE 993
 
 ADD mail_schema.sql /mail_schema.sql
 
