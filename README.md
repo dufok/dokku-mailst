@@ -162,7 +162,7 @@ First you need to generate hashed password, connect to the database, and add use
 # Generate Hashed password
 doveadm pw -s SHA512-CRYPT -p 'PASSWORD'
 # Connect to database
-dokku postgres:connect mailst_db
+dokku postgres:connect mailst-db
 # Insert domain and user
 INSERT INTO mail_virtual_domains (name) VALUES ('YOU_HOST');
 # This is return id of domain
